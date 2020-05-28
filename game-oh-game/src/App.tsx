@@ -70,6 +70,7 @@ function App() {
               // to help simulate an infinite grid
               const newI = (i + x + numRows) % numRows;
               const newK = (k + y + numCols) % numCols;
+              // if statement should be unnecessary with the modulo above
               if (newI >= 0 && newI < numRows && newK >= 0 && newK < numCols) {
                 neighbors += g[newI][newK];
               }
