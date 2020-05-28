@@ -19,11 +19,14 @@ const operations = [
 
 // create empty grid
 const generateEmptyGrid = () => {
-  const rows = [];
-  for (let i = 0; i < numRows; i++) {
-    rows.push(Array.from(Array(numCols), () => 0));
-  }
-  return rows;
+  // const rows = [];
+  // for (let i = 0; i < numRows; i++) {
+  //   rows.push(Array.from(Array(numCols), () => 0));
+  // }
+  // return rows;
+
+  // alternative syntax to build empty grid
+  return Array(numRows).fill(Array(numCols).fill(0));
 };
 
 // create random grid
@@ -63,8 +66,10 @@ function App() {
           for (let k = 0; k < numCols; k++) {
             let neighbors = 0;
             operations.forEach(([x, y]) => {
-              const newI = i + x;
-              const newK = k + y;
+              // adding numRows or numCols and then using % allows the edges to wrap/interact
+              // to help simulate an infinite grid
+              const newI = (i + x + numRows) % numRows;
+              const newK = (k + y + numCols) % numCols;
               if (newI >= 0 && newI < numRows && newK >= 0 && newK < numCols) {
                 neighbors += g[newI][newK];
               }
@@ -118,8 +123,8 @@ function App() {
           gridTemplateColumns: `repeat(${numCols}, 20px)`,
         }}
       >
-        {grid.map((rows, i) =>
-          rows.map((col, k) => (
+        {grid.map((rows: [], i) =>
+          rows.map((col: any, k) => (
             <div
               key={`${i}-${k}`}
               onClick={() => {
